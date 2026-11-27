@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Minha coleção de jogos: cadastro, listagem, filtro por gênero e estatísticas.">
+  <title>Minha Estante de Jogos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="pular" href="#jogos">Ir para a lista de jogos</a>
+>
+  <div id="fundo" aria-hidden="true">
+    <div class="camada"></div>
+    <div class="camada"></div>
+  </div>
+
+  <header class="topo">
+    <div class="marca">
+      <strong>ESTANTE</strong>
+      <span>Minha coleção de jogos</span>
+    </div>
+    <nav aria-label="Seções da página">
+      <a href="#resumo">Resumo</a>
+      <a href="#cadastro">Cadastrar</a>
+      <a href="#jogos">Meus jogos</a>
+    </nav>
+  </header>
+
+  <main>
+    <p id="status" role="status" aria-live="polite" hidden></p>
+
+    <section id="resumo" aria-labelledby="t-resumo">
+      <h2 id="t-resumo">Resumo</h2>
+      <dl class="indicadores">
+        <div><dt>Jogos cadastrados</dt><dd id="ind-total">1</dd></div>
+        <div><dt>Horas jogadas</dt><dd id="ind-horas">42</dd></div>
+        <div><dt>Nota média</dt><dd id="ind-media">9,5</dd></div>
+      </dl>
+    </section>
+
+    <section id="cadastro" aria-labelledby="t-cadastro">
+      <h2 id="t-cadastro">Cadastrar jogo</h2>
+
+      <form id="form-jogo" class="cartao">
+        <input type="hidden" id="f-id">
+
+        <div class="campo">
+          <label for="f-nome">Nome do jogo</label>
+          <input id="f-nome" name="nome" type="text" required maxlength="80" autocomplete="off" placeholder="ex: Hollow Knight">
+        </div>
+
+        <div class="par">
+          <div class="campo">
+            <label for="f-genero">Gênero</label>
+            <select id="f-genero" name="genero" required>
+              <option value="">Selecione…</option>
+              <option value="Ação">Ação</option>
+              <option value="Aventura">Aventura</option>
+              <option value="RPG">RPG</option>
+              <option value="Estratégia">Estratégia</option>
+              <option value="Esporte">Esporte</option>
+              <option value="Corrida">Corrida</option>
+              <option value="Terror">Terror</option>
+              <option value="Puzzle">Puzzle</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="f-plataforma">Plataforma</label>
+            <select id="f-plataforma" name="plataforma" required>
+              <option value="">Selecione…</option>
+              <option value="PC">PC</option>
+              <option value="PlayStation">PlayStation</option>
+              <option value="Xbox">Xbox</option>
+              <option value="Nintendo Switch">Nintendo Switch</option>
+              <option value="Mobile">Mobile</option>
+              <option value="All">Todas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="trio">
+          <div class="campo">
+            <label for="f-ano">Lançamento</label>
+            <input id="f-ano" name="anoLancamento" type="number" required min="1970" max="2026" step="1" inputmode="numeric" placeholder="2017">
+          </div>
+          <div class="campo">
+            <label for="f-horas">Horas jogadas</label>
+            <input id="f-horas" name="horasJogadas" type="number" required min="0" step="1" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="campo">
+            <label for="f-nota">Nota (0 a 10)</label>
+            <input id="f-nota" name="nota" type="number" min="0" max="10" step="0.5" inputmode="decimal" placeholder="opcional">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="f-capa">Imagem de capa (URL)</label>
+          <input id="f-capa" name="capa" type="url" inputmode="url" autocomplete="off" placeholder="https://… (opcional)">
+        </div>
+
+        <p id="form-erro" class="erro" role="alert" hidden></p>
+
+        <div class="acoes">
+          <button type="button" id="btn-cancelar" class="sec" hidden>Cancelar edição</button>
+          <button type="submit" id="btn-salvar">Cadastrar</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="jogos" aria-labelledby="t-jogos">
+      <div class="cabecalho-secao">
+        <h2 id="t-jogos">Meus jogos</h2>
+
+        <form id="form-filtro" class="ferramentas">
+          <label for="filtro-genero" class="so-leitor">Filtrar por gênero</label>
+          <select id="filtro-genero" name="filtro">
+            <option value="">Todos os gêneros</option>
+            <option value="Ação">Ação</option>
+            <option value="Aventura">Aventura</option>
+            <option value="RPG">RPG</option>
+            <option value="Estratégia">Estratégia</option>
+            <option value="Esporte">Esporte</option>
+            <option value="Corrida">Corrida</option>
+            <option value="Terror">Terror</option>
+            <option value="Puzzle">Puzzle</option>
+          </select>
+          <button type="submit" class="sec">Filtrar</button>
+        </form>
+      </div>
+
+      <div class="rolagem">
+        <table>
+          <caption class="so-leitor">Jogos cadastrados na coleção</caption>
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Gênero</th>
+              <th scope="col">Plataforma</th>
+              <th scope="col" class="num">Ano</th>
+              <th scope="col" class="num">Horas</th>
+              <th scope="col" class="num">Nota</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela">
+            <tr>
+              <td data-label="Nome">Hollow Knight</td>
+              <td data-label="Gênero"><span class="selo">Aventura</span></td>
+              <td data-label="Plataforma">PC</td>
+              <td class="num" data-label="Ano">2017</td>
+              <td class="num" data-label="Horas">42</td>
+              <td class="num" data-label="Nota">9,5</td>
+              <td data-label="Ações">
+                <div class="acoes-linha">
+                  <button type="button" class="link">Editar</button>
+                  <button type="button" class="link perigo">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto individual · Codificação para Front-End e Interação com APIs · SENAI</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
